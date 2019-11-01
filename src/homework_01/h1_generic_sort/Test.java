@@ -12,7 +12,7 @@ public class Test{
         testResultOfUserInfosSorted(new Scanner(System.in).nextInt());
     }
     
-    public static UserInfo[] createRandomUserInfos(int size){
+    private static UserInfo[] createRandomUserInfos(int size){
         UserInfo[] userInfos = new UserInfo[size];
         for(int i = 0; i<userInfos.length; i++){
             userInfos[i] = new UserInfo();
@@ -23,17 +23,17 @@ public class Test{
         }
         return userInfos;
     }
-    public static void show(Integer[] integers){
+    private static void show(Integer[] integers){
         for(Integer integer : integers){
             System.out.println(integer);
         }
     }
-    public static void show(UserInfo[] userInfos){
+    private static void show(UserInfo[] userInfos){
         for(UserInfo userInfo : userInfos){
             System.out.println(userInfo.getUserName());
         }
     }
-    public static void testResultOfIntegersSorted(int size){
+    private static void testResultOfIntegersSorted(int size){
         AbstractSort<Integer> integerAbstractSort = new IntegerSort();
         Integer[]             integers            = new Integer[size];
         for(int i = 0; i<size; i++){
@@ -45,7 +45,7 @@ public class Test{
         System.out.println("Integers 排序后：");
         show(integers);
     }
-    public static void testResultOfUserInfosSorted(int size){
+    private static void testResultOfUserInfosSorted(int size){
         AbstractSort<UserInfo> userInfoAbstractSort = new UserInfoSort();
         UserInfo[]             userInfos            = createRandomUserInfos(size);
         System.out.println("UserInfos 排序前：");
