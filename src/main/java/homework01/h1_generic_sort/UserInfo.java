@@ -1,4 +1,4 @@
-package homework_01.h1_generic_sort;
+package homework01.h1_generic_sort;
 import java.util.Date;
 public class UserInfo{
     private Integer userId;

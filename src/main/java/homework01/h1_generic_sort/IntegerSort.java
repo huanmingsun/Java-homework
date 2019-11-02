@@ -1,4 +1,4 @@
-package homework_01.h1_generic_sort;
+package homework01.h1_generic_sort;
 public class IntegerSort extends AbstractSort<Integer>{
     @Override
     protected int compare(Integer o1, Integer o2){

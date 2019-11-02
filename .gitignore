@@ -1,3 +1,5 @@
 .idea/
 out/
 homework.iml
+target/
+src/test

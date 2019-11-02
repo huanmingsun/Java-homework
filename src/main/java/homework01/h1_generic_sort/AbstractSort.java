@@ -1,4 +1,4 @@
-package homework_01.h1_generic_sort;
+package homework01.h1_generic_sort;
 import java.util.Arrays;
 public abstract class AbstractSort<T>{
     public void sort(T[] objs){
