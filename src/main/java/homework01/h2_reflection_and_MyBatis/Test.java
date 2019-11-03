@@ -36,6 +36,7 @@ public class Test{
             int classId = classInfoMapper.selectClassIdByClassName(classFromInput.getName());
             for(Method method : methods){
                 addToMethodInfo(classId, method);
+                session.commit();
                 addToParamInfo(methodInfoMapper.selectMaxMethodId(), method.getParameters());
             }
             session.close();
