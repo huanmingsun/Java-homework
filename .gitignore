@@ -3,3 +3,5 @@ out/
 homework.iml
 target/
 src/test
+out.json
+out.xml

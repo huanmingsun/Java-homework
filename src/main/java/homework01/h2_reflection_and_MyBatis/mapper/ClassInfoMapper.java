@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ClassInfoMapper{
     int selectClassIdByClassName(String ClassName);
     void insertClassName(String className);
-    ClassInfo[] findAllClassInfo();
+    ClassInfo[] selectAllClassInfo();
 }

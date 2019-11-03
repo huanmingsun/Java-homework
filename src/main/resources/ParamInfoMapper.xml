@@ -5,4 +5,7 @@
         insert into ParamInfo(methodId, paramIndex, paramType)
         values (#{methodId}, #{paramIndex}, #{paramType})
     </insert>
+    <select id="selectAllParamInfo" resultType="homework01.h2_reflection_and_MyBatis.model.ParamInfo">
+        select * from ParamInfo
+    </select>
 </mapper>

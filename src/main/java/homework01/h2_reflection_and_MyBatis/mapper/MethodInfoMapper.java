@@ -4,6 +4,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MethodInfoMapper{
     void insertMethodInfo(MethodInfo methodInfo);
-    MethodInfo[] selectAllMethod();
+    MethodInfo[] selectAllMethodInfo();
     int selectMaxMethodId();
 }

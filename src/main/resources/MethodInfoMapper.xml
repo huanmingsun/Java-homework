@@ -5,7 +5,7 @@
         insert into MethodInfo(classId, methodName, returnType)
         values (#{classId}, #{methodName}, #{returnType})
     </insert>
-    <select id="selectAllMethod" resultType="homework01.h2_reflection_and_MyBatis.model.MethodInfo">
+    <select id="selectAllMethodInfo" resultType="homework01.h2_reflection_and_MyBatis.model.MethodInfo">
         select *
         from MethodInfo
     </select>

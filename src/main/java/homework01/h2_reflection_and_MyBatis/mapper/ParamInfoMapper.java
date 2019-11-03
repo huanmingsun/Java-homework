@@ -4,4 +4,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ParamInfoMapper{
     void insertParamInfo(ParamInfo paramInfo);
+    ParamInfo[] selectAllParamInfo();
 }

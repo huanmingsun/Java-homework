@@ -1,6 +1,7 @@
 package homework01.h2_reflection_and_MyBatis;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.thoughtworks.xstream.XStream;
 import homework01.h2_reflection_and_MyBatis.mapper.ClassInfoMapper;
 import homework01.h2_reflection_and_MyBatis.mapper.MethodInfoMapper;
 import homework01.h2_reflection_and_MyBatis.mapper.ParamInfoMapper;
@@ -9,6 +10,8 @@ import homework01.h2_reflection_and_MyBatis.model.MethodInfo;
 import homework01.h2_reflection_and_MyBatis.model.ParamInfo;
 import org.apache.ibatis.session.SqlSession;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -36,13 +39,16 @@ public class Test{
                 addToParamInfo(methodInfoMapper.selectMaxMethodId(), method.getParameters());
             }
             session.close();
-            System.out.println("添加完毕！");
+            System.out.println("添加完毕！\n");
         } catch(ClassNotFoundException e){
             System.out.println("装载失败！");
             e.printStackTrace();
         }
         
+        System.out.println("导出 json 文件中。。。");
         exportToJSON();
+        System.out.println("\n导出 xml 文件中。。。");
+        exportToXML();
     }
     
     private static void showMethods(Class classFromInput){
@@ -84,17 +90,60 @@ public class Test{
     }
     
     private static void exportToJSON(){
-        GsonBuilder builder = new GsonBuilder();
-        builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        Gson gson = builder.create();
+        GsonBuilder   builder = new GsonBuilder();
+        Gson          gson    = builder.create();
+        StringBuilder string  = new StringBuilder();
+        string.append("[");
         
-        SqlSession      session         = MyBatisUtils.getSqlSession();
-        ClassInfoMapper classInfoMapper = session.getMapper(ClassInfoMapper.class);
+        SqlSession       session          = MyBatisUtils.getSqlSession();
+        ClassInfoMapper  classInfoMapper  = session.getMapper(ClassInfoMapper.class);
+        MethodInfoMapper methodInfoMapper = session.getMapper(MethodInfoMapper.class);
+        ParamInfoMapper  paramInfoMapper  = session.getMapper(ParamInfoMapper.class);
         
-        ClassInfo[] classInfos = classInfoMapper.findAllClassInfo();
+        ClassInfo[]  classInfos  = classInfoMapper.selectAllClassInfo();
+        MethodInfo[] methodInfos = methodInfoMapper.selectAllMethodInfo();
+        ParamInfo[]  paramInfos  = paramInfoMapper.selectAllParamInfo();
         
-        String string = gson.toJson(classInfos[0]);
-        System.out.println(string);
+        for(ClassInfo classInfo : classInfos){ string.append(gson.toJson(classInfo)).append(","); }
+        for(MethodInfo methodInfo : methodInfos){ string.append(gson.toJson(methodInfo)).append(","); }
+        for(ParamInfo paramInfo : paramInfos){ string.append(gson.toJson(paramInfo)).append(","); }
+        string.deleteCharAt(string.lastIndexOf(",")).append("]");
+        
+        writeFile(string,"json");
+
+        session.close();
     }
-    private static void exportToXML(){}
+    private static void exportToXML(){
+        StringBuilder string = new StringBuilder();
+        string.append("<xml>");
+        
+        SqlSession       session          = MyBatisUtils.getSqlSession();
+        XStream          xStream          = new XStream();
+        ClassInfoMapper  classInfoMapper  = session.getMapper(ClassInfoMapper.class);
+        MethodInfoMapper methodInfoMapper = session.getMapper(MethodInfoMapper.class);
+        ParamInfoMapper  paramInfoMapper  = session.getMapper(ParamInfoMapper.class);
+        
+        ClassInfo[]  classInfos  = classInfoMapper.selectAllClassInfo();
+        MethodInfo[] methodInfos = methodInfoMapper.selectAllMethodInfo();
+        ParamInfo[]  paramInfos  = paramInfoMapper.selectAllParamInfo();
+        
+        string.append(xStream.toXML(classInfos)).append(xStream.toXML(methodInfos)).append(xStream.toXML(paramInfos));
+        string.append("</xml>");
+        
+        writeFile(string, "xml");
+        
+        session.close();
+    }
+    
+    private static void writeFile(StringBuilder content, String fileExtension){
+        try{
+            BufferedWriter out = new BufferedWriter(new FileWriter("out." + fileExtension));
+            out.write(content.toString());
+            out.close();
+            System.out.println("成功导出至 out." + fileExtension);
+        } catch(IOException e){
+            System.out.println(fileExtension + " 导出失败");
+            e.printStackTrace();
+        }
+    }
 }
