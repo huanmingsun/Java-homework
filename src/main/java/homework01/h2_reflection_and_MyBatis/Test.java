@@ -1,7 +1,10 @@
 package homework01.h2_reflection_and_MyBatis;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import homework01.h2_reflection_and_MyBatis.mapper.ClassInfoMapper;
 import homework01.h2_reflection_and_MyBatis.mapper.MethodInfoMapper;
 import homework01.h2_reflection_and_MyBatis.mapper.ParamInfoMapper;
+import homework01.h2_reflection_and_MyBatis.model.ClassInfo;
 import homework01.h2_reflection_and_MyBatis.model.MethodInfo;
 import homework01.h2_reflection_and_MyBatis.model.ParamInfo;
 import org.apache.ibatis.session.SqlSession;
@@ -20,7 +23,6 @@ public class Test{
             showMethods(classFromInput);
             
             System.out.println("\n正在添加至数据库。。。");
-            //添加至 ClassInfo
             addToClassInfo(classFromInput);
             Method[] methods = classFromInput.getMethods();
             
@@ -28,11 +30,10 @@ public class Test{
             ClassInfoMapper  classInfoMapper  = session.getMapper(ClassInfoMapper.class);
             MethodInfoMapper methodInfoMapper = session.getMapper(MethodInfoMapper.class);
             
-            int classId         = classInfoMapper.selectClassIdByClassName(classFromInput.getName());
-            int currentMethodId = methodInfoMapper.selectMaxMethodId();
+            int classId = classInfoMapper.selectClassIdByClassName(classFromInput.getName());
             for(Method method : methods){
                 addToMethodInfo(classId, method);
-                addToParamInfo(currentMethodId, method.getParameters());
+                addToParamInfo(methodInfoMapper.selectMaxMethodId(), method.getParameters());
             }
             session.close();
             System.out.println("添加完毕！");
@@ -40,6 +41,8 @@ public class Test{
             System.out.println("装载失败！");
             e.printStackTrace();
         }
+        
+        exportToJSON();
     }
     
     private static void showMethods(Class classFromInput){
@@ -79,4 +82,19 @@ public class Test{
         }
         session.close();
     }
+    
+    private static void exportToJSON(){
+        GsonBuilder builder = new GsonBuilder();
+        builder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Gson gson = builder.create();
+        
+        SqlSession      session         = MyBatisUtils.getSqlSession();
+        ClassInfoMapper classInfoMapper = session.getMapper(ClassInfoMapper.class);
+        
+        ClassInfo[] classInfos = classInfoMapper.findAllClassInfo();
+        
+        String string = gson.toJson(classInfos[0]);
+        System.out.println(string);
+    }
+    private static void exportToXML(){}
 }
