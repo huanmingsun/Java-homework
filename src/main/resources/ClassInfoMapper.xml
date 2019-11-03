@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="homework01.h2_reflection_and_MyBatis.mapper.ClassInfoMapper">
-    <select id="findAll" resultType="homework01.h2_reflection_and_MyBatis.model.ClassInfo">
-        select * from ClassInfo
+    <select id="selectClassIdByClassName" resultType="int">
+        select ClassInfo.classId from ClassInfo where className=#{className}
     </select>
+    <insert id="insertClassName" parameterType="java.lang.String">
+        insert into ClassInfo(className)
+        values (#{className})
+    </insert>
 </mapper>

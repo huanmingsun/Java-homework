@@ -14,5 +14,7 @@
     </environments>
     <mappers>
         <mapper resource="ClassInfoMapper.xml"/>
+        <mapper resource="MethodInfoMapper.xml"/>
+        <mapper resource="ParamInfoMapper.xml"/>
     </mappers>
 </configuration>

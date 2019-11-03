@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!--TODO-->
+<mapper namespace="homework01.h2_reflection_and_MyBatis.mapper.MethodInfoMapper">
+    <insert id="insertMethodInfo" parameterType="homework01.h2_reflection_and_MyBatis.model.MethodInfo">
+        insert into MethodInfo(classId, methodName, returnType)
+        values (#{classId}, #{methodName}, #{returnType})
+    </insert>
+    <select id="selectAllMethod" resultType="homework01.h2_reflection_and_MyBatis.model.MethodInfo">
+        select *
+        from MethodInfo
+    </select>
+    <select id="selectMaxMethodId" resultType="int">
+        select max(MethodInfo.methodId)
+        from MethodInfo
+    </select>
+</mapper>
