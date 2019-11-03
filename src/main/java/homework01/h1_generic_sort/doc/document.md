@@ -40,14 +40,14 @@ show 方法通过重载来实现不同类型数组的遍历输出。
 
 只需按如图要求从控制台输入要排序的数组规模即可：
 
-![image-20191101190904048](Picture/document/image-20191101190904048.png)
+![image-20191101190904048](./Picture/document/image-20191101190904048.png)
 
 ### 输出
 
 程序会自动输出排序前后的结果，如图：
 
-![image-20191101191114961](Picture/document/image-20191101191114961.png)
+![image-20191101191114961](./Picture/document/image-20191101191114961.png)
 
-![image-20191101191130627](Picture/document/image-20191101191130627.png)
+![image-20191101191130627](./Picture/document/image-20191101191130627.png)
 
 <p align="right">author：崔书豪</p>
